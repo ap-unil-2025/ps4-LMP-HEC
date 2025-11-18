@@ -21,9 +21,12 @@ def create_student_record(name, age, major, gpa):
         >>> create_student_record("Alice", 20, "Computer Science", 3.8)
         {'name': 'Alice', 'age': 20, 'major': 'Computer Science', 'gpa': 3.8}
     """
-    # TODO: Implement this function
-    # Return a dictionary with the provided information
-    pass
+    return {
+        'name': name,
+        'age': age,
+        'major': major,
+        'gpa': gpa
+    }
 
 
 def get_value_safely(dictionary, key, default=None):
@@ -45,9 +48,7 @@ def get_value_safely(dictionary, key, default=None):
         >>> get_value_safely(d, 'c', 'Not found')
         'Not found'
     """
-    # TODO: Implement this function
-    # Hint: Use the .get() method or check if key in dictionary
-    pass
+    return dictionary.get(key, default)
 
 
 def merge_dictionaries(dict1, dict2):
@@ -65,9 +66,9 @@ def merge_dictionaries(dict1, dict2):
         >>> merge_dictionaries({'a': 1, 'b': 2}, {'b': 3, 'c': 4})
         {'a': 1, 'b': 3, 'c': 4}
     """
-    # TODO: Implement this function
-    # Create a new dictionary with items from both
-    pass
+    merged = dict1.copy()
+    merged.update(dict2)
+    return merged
 
 
 def count_word_frequency(text):
@@ -85,14 +86,21 @@ def count_word_frequency(text):
         >>> count_word_frequency("hello world hello")
         {'hello': 2, 'world': 1}
     """
-    # TODO: Implement this function
-    # Steps:
-    # 1. Convert text to lowercase
-    # 2. Remove punctuation (you can use .replace() or import string)
-    # 3. Split into words
-    # 4. Count each word's frequency
-    pass
+    text = text.lower()
 
+    for ch in ".,!?;:'\"":
+        text = text.replace(ch, " ")
+
+    words = text.split()
+    freq = {}
+
+    for word in words:
+        if word in freq:
+            freq[word] += 1
+        else:
+            freq[word] = 1
+
+    return freq
 
 def invert_dictionary(dictionary):
     """
@@ -109,9 +117,10 @@ def invert_dictionary(dictionary):
         >>> invert_dictionary({'a': 1, 'b': 2, 'c': 3})
         {1: 'a', 2: 'b', 3: 'c'}
     """
-    # TODO: Implement this function
-    # Create a new dictionary with values as keys and keys as values
-    pass
+    inverted = {}
+    for key, value in dictionary.items():
+        inverted[value] = key
+    return inverted
 
 
 def filter_dictionary(dictionary, keys_to_keep):
@@ -129,9 +138,11 @@ def filter_dictionary(dictionary, keys_to_keep):
         >>> filter_dictionary({'a': 1, 'b': 2, 'c': 3, 'd': 4}, ['a', 'c'])
         {'a': 1, 'c': 3}
     """
-    # TODO: Implement this function
-    # Loop through keys_to_keep and add them to result if they exist
-    pass
+    result = {}
+    for key in keys_to_keep:
+        if key in dictionary:
+            result[key] = dictionary[key]
+    return result
 
 
 def group_by_first_letter(words):
@@ -148,12 +159,13 @@ def group_by_first_letter(words):
         >>> group_by_first_letter(['apple', 'banana', 'apricot', 'blueberry'])
         {'a': ['apple', 'apricot'], 'b': ['banana', 'blueberry']}
     """
-    # TODO: Implement this function
-    # For each word:
-    #   - Get first letter
-    #   - Add word to the list for that letter
-    # Hint: Use .setdefault() or check if key exists
-    pass
+    groups = {}
+    for word in words:
+        if not word:
+            continue
+        first = word[0]
+        groups.setdefault(first, []).append(word)
+    return groups
 
 
 def calculate_grades_average(students):
@@ -175,10 +187,14 @@ def calculate_grades_average(students):
         ... })
         {'Alice': 87.67, 'Bob': 77.67}
     """
-    # TODO: Implement this function
-    # For each student, calculate average of their grades
-    # Hint: sum(grades) / len(grades)
-    pass
+    averages = {}
+    for name, grades in students.items():
+        if grades:
+            avg = round(sum(grades) / len(grades), 2)
+        else:
+            avg = 0.0
+        averages[name] = avg
+    return averages
 
 
 def nested_dict_access(data, keys):
@@ -200,10 +216,13 @@ def nested_dict_access(data, keys):
         >>> nested_dict_access(data, ['a', 'x'])
         None
     """
-    # TODO: Implement this function
-    # Start with data, then traverse using each key
-    # Return None if any key is missing
-    pass
+    current = data
+    for key in keys:
+        if isinstance(current, dict) and key in current:
+            current = current[key]
+        else:
+            return None
+    return current
 
 
 # Test cases
